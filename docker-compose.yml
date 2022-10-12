@@ -1,6 +1,11 @@
 version: '3'
 
 services:
+  database:
+    image: mongo
+    restart: always
+    ports:
+      - "127.0.0.1:27017:27017"
   app:
     build:
       context: ./
@@ -13,7 +18,7 @@ services:
   server:
     build:
       context: ./
-      dockerfile: Dockerfile-dev
+      dockerfile: Dockerfile
     restart: always
     volumes:
       - ./server:/home/app/server

@@ -1,6 +1,66 @@
 /******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	function webpackJsonpCallback(data) {
+/******/ 		var chunkIds = data[0];
+/******/ 		var moreModules = data[1];
+/******/ 		var executeModules = data[2];
+/******/
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [];
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			}
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/
+/******/ 		while(resolves.length) {
+/******/ 			resolves.shift()();
+/******/ 		}
+/******/
+/******/ 		// add entry modules from loaded chunk to deferred list
+/******/ 		deferredModules.push.apply(deferredModules, executeModules || []);
+/******/
+/******/ 		// run deferred modules when all chunks ready
+/******/ 		return checkDeferredModules();
+/******/ 	};
+/******/ 	function checkDeferredModules() {
+/******/ 		var result;
+/******/ 		for(var i = 0; i < deferredModules.length; i++) {
+/******/ 			var deferredModule = deferredModules[i];
+/******/ 			var fulfilled = true;
+/******/ 			for(var j = 1; j < deferredModule.length; j++) {
+/******/ 				var depId = deferredModule[j];
+/******/ 				if(installedChunks[depId] !== 0) fulfilled = false;
+/******/ 			}
+/******/ 			if(fulfilled) {
+/******/ 				deferredModules.splice(i--, 1);
+/******/ 				result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+/******/ 			}
+/******/ 		}
+/******/
+/******/ 		return result;
+/******/ 	}
+/******/
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
+/******/
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 	// Promise = chunk loading, 0 = chunk loaded
+/******/ 	var installedChunks = {
+/******/ 		"app": 0
+/******/ 	};
+/******/
+/******/ 	var deferredModules = [];
 /******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -79,21 +139,42 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "./bundles/";
 /******/
+/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
+/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+/******/ 	jsonpArray.push = webpackJsonpCallback;
+/******/ 	jsonpArray = jsonpArray.slice();
+/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+/******/ 	var parentJsonpFunction = oldJsonpFunction;
 /******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./app/src/app.js");
+/******/
+/******/ 	// add entry module to deferred list
+/******/ 	deferredModules.push(["./app/src/app.js","vendor"]);
+/******/ 	// run deferred modules when ready
+/******/ 	return checkDeferredModules();
 /******/ })
 /************************************************************************/
 /******/ ({
+
+/***/ "./app/src/app-root.js":
+/*!*****************************!*\
+  !*** ./app/src/app-root.js ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("console.log('aaaa');\n\n//# sourceURL=webpack:///./app/src/app-root.js?");
+
+/***/ }),
 
 /***/ "./app/src/app.js":
 /*!************************!*\
   !*** ./app/src/app.js ***!
   \************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-eval("throw new Error(\"Module build failed (from ./node_modules/babel-loader/lib/index.js):\\nError: [BABEL] /Users/jemaltadumadze/Desktop/Liderator2/liderator2-2/app/src/app.js: @babel/helper-compilation-targets: '' is not a valid value for 'targets.chrome'. (While processing: \\\"/Users/jemaltadumadze/Desktop/Liderator2/liderator2-2/node_modules/@babel/preset-env/lib/index.js\\\")\\n    at semverifyTarget (/Users/jemaltadumadze/Desktop/Liderator2/liderator2-2/node_modules/@babel/helper-compilation-targets/src/index.ts:130:11)\\n    at defaultTargetParser (/Users/jemaltadumadze/Desktop/Liderator2/liderator2-2/node_modules/@babel/helper-compilation-targets/src/index.ts:153:7)\\n    at getTargets (/Users/jemaltadumadze/Desktop/Liderator2/liderator2-2/node_modules/@babel/helper-compilation-targets/src/index.ts:274:11)\\n    at getLocalTargets (/Users/jemaltadumadze/Desktop/Liderator2/liderator2-2/node_modules/@babel/preset-env/lib/index.js:227:48)\\n    at /Users/jemaltadumadze/Desktop/Liderator2/liderator2-2/node_modules/@babel/preset-env/lib/index.js:288:15\\n    at /Users/jemaltadumadze/Desktop/Liderator2/liderator2-2/node_modules/@babel/helper-plugin-utils/src/index.ts:35:12\\n    at async (/Users/jemaltadumadze/Desktop/Liderator2/liderator2-2/node_modules/@babel/core/lib/gensync-utils/async.js:44:33)\\n    at async (/Users/jemaltadumadze/Desktop/Liderator2/liderator2-2/node_modules/gensync/index.js:186:15)\\n    at /Users/jemaltadumadze/Desktop/Liderator2/liderator2-2/node_modules/gensync/index.js:216:13\\n    at Generator.next (<anonymous>)\\n    at /Users/jemaltadumadze/Desktop/Liderator2/liderator2-2/node_modules/@babel/core/lib/config/full.js:229:21\\n    at Generator.next (<anonymous>)\\n    at Function.<anonymous> (/Users/jemaltadumadze/Desktop/Liderator2/liderator2-2/node_modules/@babel/core/lib/gensync-utils/async.js:25:3)\\n    at Generator.next (<anonymous>)\\n    at step (/Users/jemaltadumadze/Desktop/Liderator2/liderator2-2/node_modules/gensync/index.js:269:25)\\n    at evaluateAsync (/Users/jemaltadumadze/Desktop/Liderator2/liderator2-2/node_modules/gensync/index.js:291:5)\");\n\n//# sourceURL=webpack:///./app/src/app.js?");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var lit_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-element */ \"./node_modules/lit-element/lit-element.js\");\n/* harmony import */ var _app_root_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app-root.js */ \"./app/src/app-root.js\");\n/* harmony import */ var _app_root_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_app_root_js__WEBPACK_IMPORTED_MODULE_1__);\n\n\nconst element = document.createElement('app-root');\ndocument.body.appendChild(element);\nclass BaseElement extends lit_element__WEBPACK_IMPORTED_MODULE_0__[\"LitElement\"] {}\n\n//# sourceURL=webpack:///./app/src/app.js?");
 
 /***/ })
 

@@ -43,7 +43,7 @@ module.exports = (env, argv) => ({
                 '@babel/preset-env',
                 {
                   targets: {
-                    chrome: "",
+                    edge: "16",
                   },
                 },
               ],
@@ -55,7 +55,7 @@ module.exports = (env, argv) => ({
   },
   plugins: [
     new CopyPlugin([
-      { from: dir + '/index.html', to: dir + '/../public/index.html' },
+      { from: dir + '/src/index.html', to: dir + '/../public/index.html' },
       { from: dir + '/assets', to: dir + '/../public/assets' },
     ]),
   ],
