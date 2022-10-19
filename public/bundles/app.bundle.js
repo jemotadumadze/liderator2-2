@@ -1,66 +1,6 @@
 /******/ (function(modules) { // webpackBootstrap
-/******/ 	// install a JSONP callback for chunk loading
-/******/ 	function webpackJsonpCallback(data) {
-/******/ 		var chunkIds = data[0];
-/******/ 		var moreModules = data[1];
-/******/ 		var executeModules = data[2];
-/******/
-/******/ 		// add "moreModules" to the modules object,
-/******/ 		// then flag all "chunkIds" as loaded and fire callback
-/******/ 		var moduleId, chunkId, i = 0, resolves = [];
-/******/ 		for(;i < chunkIds.length; i++) {
-/******/ 			chunkId = chunkIds[i];
-/******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
-/******/ 				resolves.push(installedChunks[chunkId][0]);
-/******/ 			}
-/******/ 			installedChunks[chunkId] = 0;
-/******/ 		}
-/******/ 		for(moduleId in moreModules) {
-/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
-/******/ 				modules[moduleId] = moreModules[moduleId];
-/******/ 			}
-/******/ 		}
-/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
-/******/
-/******/ 		while(resolves.length) {
-/******/ 			resolves.shift()();
-/******/ 		}
-/******/
-/******/ 		// add entry modules from loaded chunk to deferred list
-/******/ 		deferredModules.push.apply(deferredModules, executeModules || []);
-/******/
-/******/ 		// run deferred modules when all chunks ready
-/******/ 		return checkDeferredModules();
-/******/ 	};
-/******/ 	function checkDeferredModules() {
-/******/ 		var result;
-/******/ 		for(var i = 0; i < deferredModules.length; i++) {
-/******/ 			var deferredModule = deferredModules[i];
-/******/ 			var fulfilled = true;
-/******/ 			for(var j = 1; j < deferredModule.length; j++) {
-/******/ 				var depId = deferredModule[j];
-/******/ 				if(installedChunks[depId] !== 0) fulfilled = false;
-/******/ 			}
-/******/ 			if(fulfilled) {
-/******/ 				deferredModules.splice(i--, 1);
-/******/ 				result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
-/******/ 			}
-/******/ 		}
-/******/
-/******/ 		return result;
-/******/ 	}
-/******/
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-/******/
-/******/ 	// object to store loaded and loading chunks
-/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
-/******/ 	// Promise = chunk loading, 0 = chunk loaded
-/******/ 	var installedChunks = {
-/******/ 		"app": 0
-/******/ 	};
-/******/
-/******/ 	var deferredModules = [];
 /******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -139,18 +79,9 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "./bundles/";
 /******/
-/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
-/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
-/******/ 	jsonpArray.push = webpackJsonpCallback;
-/******/ 	jsonpArray = jsonpArray.slice();
-/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
-/******/ 	var parentJsonpFunction = oldJsonpFunction;
 /******/
-/******/
-/******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push(["./app/src/app.js","vendor"]);
-/******/ 	// run deferred modules when ready
-/******/ 	return checkDeferredModules();
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./app/src/app.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -174,7 +105,30 @@ eval("console.log('aaaa');\n\n//# sourceURL=webpack:///./app/src/app-root.js?");
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var lit_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lit-element */ \"./node_modules/lit-element/lit-element.js\");\n/* harmony import */ var _app_root_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app-root.js */ \"./app/src/app-root.js\");\n/* harmony import */ var _app_root_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_app_root_js__WEBPACK_IMPORTED_MODULE_1__);\n\n\nconst element = document.createElement('app-root');\ndocument.body.appendChild(element);\nclass BaseElement extends lit_element__WEBPACK_IMPORTED_MODULE_0__[\"LitElement\"] {}\n\n//# sourceURL=webpack:///./app/src/app.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _app_root_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app-root.js */ \"./app/src/app-root.js\");\n/* harmony import */ var _app_root_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_app_root_js__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _core_rest_client_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/rest-client.js */ \"./app/src/core/rest-client.js\");\n/* harmony import */ var _components_app_input_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/app-input.js */ \"./app/src/components/app-input.js\");\n/* harmony import */ var _components_app_input_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_components_app_input_js__WEBPACK_IMPORTED_MODULE_2__);\n\n\n\nconst element = document.createElement('app-input');\ndocument.body.appendChild(element);\n_core_rest_client_js__WEBPACK_IMPORTED_MODULE_1__[\"RestClient\"].call('/api/users/login', {\n  id: 1234,\n  userName: 'adfsda'\n}, _core_rest_client_js__WEBPACK_IMPORTED_MODULE_1__[\"RestClient\"].methods.get);\n\n//# sourceURL=webpack:///./app/src/app.js?");
+
+/***/ }),
+
+/***/ "./app/src/components/app-input.js":
+/*!*****************************************!*\
+  !*** ./app/src/components/app-input.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("const template = `\n<style>\n\n    :host{\n        border: 5px solid green;\n    }\n    input{\n        background: red;\n    }\n </style>\n <input>\n`;\nclass AppInput extends HTMLElement {\n  constructor() {\n    super();\n    this.attachShadow({\n      mode: \"open\"\n    });\n    this.shadowRoot.innerHTML = template;\n  }\n  connectedCallback() {\n    console.log('Connected');\n  }\n  disconnectedCallback() {\n    console.log('Dconnected');\n  }\n  attributeChangedCallback(name, oldValue, newValue) {\n    console.log('web');\n  }\n  static get observedAttributes() {\n    return ['name', 'value'];\n  }\n}\ncustomElements.define('app-input', AppInput);\n\n//# sourceURL=webpack:///./app/src/components/app-input.js?");
+
+/***/ }),
+
+/***/ "./app/src/core/rest-client.js":
+/*!*************************************!*\
+  !*** ./app/src/core/rest-client.js ***!
+  \*************************************/
+/*! exports provided: RestClient */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"RestClient\", function() { return RestClient; });\nclass RestClient {\n  static get methods() {\n    return {\n      post: 'POST',\n      get: 'GET'\n    };\n  }\n  static call(route) {\n    let params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};\n    let method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;\n    const headers = {\n      accept: '*/*'\n    };\n    if (method === RestClient.methods.post) {\n      headers['Content-Type'] = 'application/x-www-form-urlencoded';\n    }\n    const config = {\n      method,\n      headers\n    };\n    const query = new URLSearchParams(params).toString();\n    if (method === RestClient.methods.post) {\n      config.body = query;\n    } else if (method === RestClient.methods.get) {\n      route = route + '?' + query;\n    }\n    return fetch(route, config);\n  }\n}\n\n\n//# sourceURL=webpack:///./app/src/core/rest-client.js?");
 
 /***/ })
 

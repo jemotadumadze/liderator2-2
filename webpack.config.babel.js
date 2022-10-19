@@ -1,8 +1,9 @@
-const path = require('path')
-const CopyPlugin = require('copy-webpack-plugin')
-const dir = path.resolve(__dirname) + '/app'
-
+const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
+const dir = path.resolve(__dirname) + '/app';
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 console.log(dir);
+
 
 module.exports = (env, argv) => ({
   //   mode: 'development',
@@ -23,7 +24,7 @@ module.exports = (env, argv) => ({
           chunks: 'all',
         },
         components: {
-          test: /[\\/]src[\\/]components[\\/]/,
+          test: /^[\\/]src[\\/]components[\\/]/,
           name: 'components',
           chunks: 'all',
         },
@@ -58,5 +59,12 @@ module.exports = (env, argv) => ({
       { from: dir + '/src/index.html', to: dir + '/../public/index.html' },
       { from: dir + '/assets', to: dir + '/../public/assets' },
     ]),
+      new HtmlWebpackPlugin({
+        title: 'Page Title',
+        template: dir + '/src/index.html',
+        filename: dir + '/../public/index.html',
+        scriptLoading: 'defer',
+
+      })
   ],
 })
