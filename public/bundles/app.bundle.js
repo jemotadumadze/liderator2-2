@@ -116,7 +116,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _app
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("const template = `\n<style>\n\n    :host{\n        border: 5px solid green;\n    }\n    input{\n        background: red;\n    }\n </style>\n <input>\n`;\nclass AppInput extends HTMLElement {\n  constructor() {\n    super();\n    this.attachShadow({\n      mode: \"open\"\n    });\n    this.shadowRoot.innerHTML = template;\n  }\n  connectedCallback() {\n    console.log('Connected');\n  }\n  disconnectedCallback() {\n    console.log('Dconnected');\n  }\n  attributeChangedCallback(name, oldValue, newValue) {\n    console.log('web');\n  }\n  static get observedAttributes() {\n    return ['name', 'value'];\n  }\n}\ncustomElements.define('app-input', AppInput);\n\n//# sourceURL=webpack:///./app/src/components/app-input.js?");
+eval("const template = `\n<style>\n\n    :host{\n         background: black;\n    }\n    input{\n        background: red;\n        border: 5px solid green;\n    }\n </style>\n <input>\n`;\nclass AppInput extends HTMLElement {\n  constructor() {\n    super();\n    this.attachShadow({\n      mode: \"open\"\n    });\n    this.shadowRoot.innerHTML = template;\n  }\n  connectedCallback() {\n    console.log('Connected');\n  }\n  disconnectedCallback() {\n    console.log('Dconnected');\n  }\n  attributeChangedCallback(name, oldValue, newValue) {\n    console.log('web');\n  }\n  static get observedAttributes() {\n    return ['name', 'value'];\n  }\n}\ncustomElements.define('app-input', AppInput);\n\n//# sourceURL=webpack:///./app/src/components/app-input.js?");
 
 /***/ }),
 

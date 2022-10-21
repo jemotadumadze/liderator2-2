@@ -15,6 +15,9 @@ module.exports = (env, argv) => ({
     publicPath: './bundles/',
     path: dir + '/../public/bundles',
   },
+  watchOptions: {
+    poll: true,
+  },
   optimization: {
     splitChunks: {
       cacheGroups: {
@@ -59,12 +62,11 @@ module.exports = (env, argv) => ({
       { from: dir + '/src/index.html', to: dir + '/../public/index.html' },
       { from: dir + '/assets', to: dir + '/../public/assets' },
     ]),
-      new HtmlWebpackPlugin({
-        title: 'Page Title',
-        template: dir + '/src/index.html',
-        filename: dir + '/../public/index.html',
-        scriptLoading: 'defer',
-
-      })
+    new HtmlWebpackPlugin({
+      title: 'Page Title',
+      filename: 'index.html',
+      template: './app/src/index.html',
+      scriptLoading: 'defer',
+    }),
   ],
 })
