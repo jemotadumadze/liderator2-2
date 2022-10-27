@@ -1,20 +1,6 @@
 import {LitElement,html,css} from "lit-element";
 
 
-const template = `
-<style>
-
-    :host{
-         background: black;
-    }
-    input{
-        background: red;
-        border: 5px solid green;
-    }
- </style>
- <input>
-`
-
 class AppInput extends LitElement {
     static get is() {
         return 'app-input';
