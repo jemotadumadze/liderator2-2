@@ -80,7 +80,7 @@ class AppUserList extends BaseElement {
 
     static get properties() {
         return {
-            usersList: {type: Array}
+            users: {type: Array}
         }
     }
 
@@ -90,7 +90,7 @@ class AppUserList extends BaseElement {
 
     constructor() {
         super();
-        this.usersList = [];
+        this.users = [];
     }
 
     _editUser(user) {

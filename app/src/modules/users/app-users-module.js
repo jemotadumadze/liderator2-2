@@ -1,6 +1,6 @@
 import {BaseElement, html, css} from "../../core/base-element.js";
-import "../modules/users/app-registration-form.js";
-import "../modules/users/app-user-list.js";
+import "./app-registration-form.js";
+import "./app-user-list.js";
 
 class AppUsersModule extends BaseElement {
     static get is() {
@@ -27,7 +27,7 @@ class AppUsersModule extends BaseElement {
                 </section>
                 <section class="users-info_section">
                     <app-user-list id="list"
-                                   .usersList="${this.usersList}"></app-user-list>
+                                   .users="${this.users}"></app-user-list>
                 </section>
             </div>
         `;
@@ -35,7 +35,7 @@ class AppUsersModule extends BaseElement {
 
     static get properties() {
         return {
-            usersList: {type: Array},
+            users: {type: Array},
             editUser: {type: Object},
         }
     }
@@ -43,29 +43,29 @@ class AppUsersModule extends BaseElement {
     connectedCallback() {
         super.connectedCallback();
         this.addEventListener('save-user-data', async (event) => {
-            this._saveUserData(event.detail);
+           await this._saveUserData(event.detail);
         });
         this.addEventListener('edit-user-data', async (event) => {
-            this._editUserData(event.detail);
+           await this._editUserData(event.detail);
         });
 
     }
 
     _saveUserData(user) {
-        this.usersList.push(user);
-        this.usersList = [...this.usersList];
+        this.users.push(user);
+        this.users = [...this.users];
     }
 
     // _loadUserList() {
     //
     // }
     _editUserData(){
-
+        console.log("asd")
     }
 
     constructor() {
         super();
-        this.usersList = [];
+        this.users = [];
         this.editUser = [];
 
     }
