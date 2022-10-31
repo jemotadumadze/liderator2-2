@@ -1,4 +1,5 @@
 import {BaseElement, html, css} from "../../core/base-element.js";
+import {RestClient} from "../../core/rest-client.js";
 
 class AppRegistrationForm extends BaseElement {
     static get is() {
@@ -9,18 +10,22 @@ class AppRegistrationForm extends BaseElement {
         return {
             firstName: {
                 type: String,
-                reflect:true,
+                reflect: true,
                 attribute: 'first-name',
             },
             lastName: {
                 type: String,
-                reflect:true,
+                reflect: true,
                 attribute: 'first-name',
             },
             email: {type: String},
             paroliOne: {type: String},
             paroliTwo: {type: String},
-
+            submitBtn: {type: String},
+            editUser: {
+                type: Object,
+                observer: '_editUserChange'
+            }
         }
     }
 
@@ -79,6 +84,34 @@ class AppRegistrationForm extends BaseElement {
             background-color: antiquewhite;
             border: 2px solid transparent;
           }
+
+          .error-messages {
+            grid-column-start: 1;
+            grid-column-end: 5;
+            color: red;
+          }
+
+          .valid,
+          input:not([invalid]) {
+            border: 2px solid green;
+          }
+
+          .invalid,
+          input[invalid] {
+            border: 2px solid red;
+            background-color: red;
+          }
+
+          @media (max-width: 1024px) {
+            .form {
+              grid-template-columns: 1fr 1fr;
+            }
+
+            .buttons {
+              grid-column-start: 1;
+              grid-column-end: 3;
+            }
+          }
         `
     }
 
@@ -93,40 +126,47 @@ class AppRegistrationForm extends BaseElement {
                     <input
                             type="text"
                             id="firstName"
-                            @input="${(event) => (this.firstName = event.target.value)}"
+                            @input="${this._setInputValue}"
+                            .value="${this.firstName}"
 
                     />
                     <label for="lastName">Last name *</label>
                     <input
                             type="text"
                             id="lastName"
-                            @input="${(event) => (this.lastName = event.target.value)}"
+                            @input="${this._setInputValue}"
+                            .value="${this.lastName}"
 
                     />
                     <label for="email">Email address *</label>
                     <input
                             type="email"
                             id="email"
-                            @input="${(event) => (this.email = event.target.value)}"
+                            @input="${this._setInputValue}"
+                            .value="${this.email}"
                     />
                     <label for="paroliOne">Password </label>
                     <input
                             type="password"
                             id="paroliOne"
                             name="paroli"
-                            @input="${(event) => (this.paroliOne = event.target.value)}"
+                            @input="${this._setInputValue}"
+                            .value="${this.paroliOne}"
                     />
                     <label for="paroliTwo">Confirm password</label>
                     <input
                             type="password"
                             id="paroliTwo"
                             name="paroli"
-                            @input="${(event) => (this.paroliTwo = event.target.value)}"
+                            @input="${this._setInputValue}"
+                            .value="${this.paroliTwo}"
+
                     />
                     <div class="buttons">
                         <button
+                                ?disabled="${this.disabled}"
                                 class="submit-btn"
-                                @click="${this._saveUsersData}">submit
+                                @click="${this._saveUsersData}">sumbit
                         </button>
                     </div>
                 </div>
@@ -144,18 +184,69 @@ class AppRegistrationForm extends BaseElement {
         });
     }
 
+    static get validation() {
+        return {
+            firstName: /^[a-zA-Z]{2,}$/,
+            lastName: /^[a-zA-Z]{2,}$/,
+            email: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/,
+            paroliOne: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+            paroliTwo: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+        }
+    }
+
+    _setInputValue(event) {
+        const targetElement = event.currentTarget;
+        const fieldName = targetElement.id;
+        this[fieldName] = event.target.value;
+        if (AppRegistrationForm.validation[fieldName]) {
+            const valid = AppRegistrationForm.validation[fieldName].test(this[fieldName]);
+            if (valid) {
+                targetElement.removeAttribute('invalid');
+            } else {
+                targetElement.setAttribute('invalid', '');
+            }
+        }
+
+    }
+
+    get disabled() {
+        let formInValid = Object.keys(AppRegistrationForm.validation)
+            .some(fieldName => {
+                const valid = AppRegistrationForm.validation[fieldName].test(this[fieldName]);
+                return !valid;
+
+            })
+        if (formInValid === false) {
+            if (this.paroliOne !== this.paroliTwo) {
+                formInValid = true;
+            }
+        }
+        return formInValid;
+    }
+
+
+    _editUserChange(newValue) {
+        for (let key in newValue) {
+            this[key] = newValue[key];
+        }
+    }
+
     connectedCallback() {
         super.connectedCallback();
     }
 
+
     constructor() {
         super();
-        this.firstName='';
-        this.lastName='';
-        this.email='';
-        this.paroliOne='';
-        this.paroliTwo='';
+        this.firstName = '';
+        this.lastName = '';
+        this.email = '';
+        this.paroliOne = '';
+        this.paroliTwo = '';
+        this.editUser = {};
+
     }
+
 
 }
 

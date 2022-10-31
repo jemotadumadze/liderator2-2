@@ -1,6 +1,7 @@
 import {BaseElement, html, css} from "../../core/base-element.js";
 import "./app-registration-form.js";
 import "./app-user-list.js";
+import {RestClient} from "../../core/rest-client.js";
 
 class AppUsersModule extends BaseElement {
     static get is() {
@@ -27,7 +28,7 @@ class AppUsersModule extends BaseElement {
                 </section>
                 <section class="users-info_section">
                     <app-user-list id="list"
-                                   .users="${this.users}"></app-user-list>
+                                   .usersList="${this.usersList}"></app-user-list>
                 </section>
             </div>
         `;
@@ -35,41 +36,50 @@ class AppUsersModule extends BaseElement {
 
     static get properties() {
         return {
-            users: {type: Array},
+            usersList: {type: Array},
             editUser: {type: Object},
         }
     }
 
     connectedCallback() {
         super.connectedCallback();
-        this.addEventListener('save-user-data', async (event) => {
-           await this._saveUserData(event.detail);
+        this.addEventListener('save-user-data', (event) => {
+            this._saveUserData(event.detail);
         });
         this.addEventListener('edit-user-data', async (event) => {
-           await this._editUserData(event.detail);
+            this._editUserData(event.detail);
         });
 
     }
 
     _saveUserData(user) {
-        this.users.push(user);
-        this.users = [...this.users];
+        RestClient.call('/api/client/updateClientData', user, RestClient.methods.post)
+            .then(() => {
+                this.usersList.push(user);
+                this.usersList = [...this.usersList];
+                console.log(this.usersList);
+                this.editUser = {
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    paroliOne: '',
+                    parolitwo: '',
+
+                };
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
-    // _loadUserList() {
-    //
-    // }
-    _editUserData(){
-        console.log("asd")
+    _editUserData(user) {
+        this.editUser = user;
+        console.log(user);
     }
 
     constructor() {
         super();
-        this.users = [];
-        this.editUser = [];
-
     }
-
 }
 
 

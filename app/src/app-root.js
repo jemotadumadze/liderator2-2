@@ -3,7 +3,7 @@ import "./modules/users/app-users-module.js"
 
 const tabs = {
     users: 'users',
-    chat:'chat'
+    chat: 'chat'
 }
 
 class AppRoot extends BaseElement {
@@ -11,21 +11,58 @@ class AppRoot extends BaseElement {
         return 'app-root';
     }
 
+    static get styles() {
+        return css`
+          //.container {
+          //  width: 1000px;
+          //  margin: auto;
+          //}
+
+          .header {
+            background-color: cadetblue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+          }
+
+          .header button {
+            width: 100px;
+            border-radius: 12px;
+            margin: 16px 0;
+          }
+
+          .header-button {
+            align-items: center;
+          }
+          @media (max-width: 1024px) {
+            .container{
+              margin: auto;
+            }
+          }
+        `
+    }
+
     render() {
         return html`
-            <div>
-                <button
-                        @click="${() => this.tab = tabs.users}">Users
-                </button>
-                <button
-                        @click="${() => this.tab = tabs.chat}">Chat
-                </button>
-            </div>
-            <div>
-                ${this.tab === 'users' ? html`
-                    <app-users-module>` : ''}
-                ${this.tab === 'chat' ? html`
-                    <app-chat-module>` : ''}
+            <div class="container">
+                <div class="header">
+                    <div class="header-button">
+                        <button class="users-button"
+                                @click="${() => this.tab = tabs.users}">Users
+                        </button>
+                        <button
+                                class="tabs-button"
+                                @click="${() => this.tab = tabs.chat}">Chat
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    ${this.tab === 'users' ? html`
+                        <app-users-module>` : ''}
+                    ${this.tab === 'chat' ? html`
+                        <app-chat-module>` : ''}
+                </div>
             </div>
         `
     }
@@ -35,9 +72,10 @@ class AppRoot extends BaseElement {
             tab: {type: String}
         }
     }
+
     constructor() {
         super();
-        this.tab=tabs.users;
+        this.tab = tabs.users;
     }
 }
 

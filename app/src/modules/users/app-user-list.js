@@ -28,11 +28,32 @@ class AppUserList extends BaseElement {
           .users-info_header h3 {
             margin: 5px 15px;
           }
-
-          .grid_header-row {
+          .grid_header-row,
+          .grid_user-row {
             display: grid;
-            grid-template-columns: 30px repeat(3, 1fr) 180px repeat(4, 1fr);
+            grid-template-columns: 30px repeat(3, 1fr) 180px repeat(2, 1fr);
             grid-gap: 4px;
+          }
+          .grid_header-row span {
+            font-weight: bold;
+          }
+          .grid_user-row span {
+            word-wrap: break-word;
+          }
+          .action-btns {
+            display: inline-flex;
+            justify-content: space-evenly;
+            align-items: center;
+          }
+          @media (max-width: 1024px) {
+            .grid_header-row,
+            .grid_user-row {
+              grid-template-rows: 1fr 1fr;
+              grid-template-columns: repeat(5, 1fr) 150px;
+            }
+            .user-info-container{
+              max-width: 768px;
+            }
           }
         `;
     }
@@ -52,24 +73,33 @@ class AppUserList extends BaseElement {
                 <div class="users-info_grid">
                     <div class="grid_header-row">
                         <span>#</span>
-                        <span>Name</span>
-                        <span>Date of birth</span>
+                        <span>firstName</span>
+                        <span>lastName</span>
                         <span>Email</span>
-                        <span>Mobile number</span>
-                        <span>City</span>
-                        <span>Actions</span>
+                        <span>passOne</span>
+                        <span>passTwo</span>
+                       
                     </div>
-                    <div class="gird_info-rows" id="usersInfoTable">
-                        ${this.users
+                    <div class="grid_info-rows" id="usersInfoTable">
+                        ${this.usersList
                                 .map((user, index) => html`
                                     <div class="grid_user-row">
                                         <span><b>${index + 1}</b></span>
-                                        <span><b>${user.firstName} ${user.lastName}</b></span>
+                                        <span><b>${user.firstName}</b></span>
+                                        <span>${user.lastName}</span>
                                         <span>${user.email}</span>
+                                        <span>${user.paroliOne}</span>
+                                        <span>${user.paroliTwo}</span>
                                         <div class="action-btns">
-                                            <div
-                                                    @click="${() => this._editUser(user)}">Edit
-                                            </div>
+                                            <button
+                                                    @click="${() => this.editUser(user)}">
+                                                🖊️
+                                            </button>
+                                            <button
+                                                    class="delete-btn btn"
+                                                    @click="${() => this._deleteUser(user)}"
+                                            > ❌
+                                            </button>
                                         </div>
                                     </div>
                                 `)}
@@ -80,7 +110,7 @@ class AppUserList extends BaseElement {
 
     static get properties() {
         return {
-            users: {type: Array}
+            usersList: {type: Array}
         }
     }
 
@@ -88,14 +118,19 @@ class AppUserList extends BaseElement {
         super.connectedCallback();
     }
 
-    constructor() {
-        super();
-        this.users = [];
+    editUser(user) {
+        this.sendCustomEvent('edit-user-data', user)
+        console.log(user)
     }
 
-    _editUser(user) {
-        this.sendCustomEvent('edit-user-data', user)
+
+
+    _deleteUser(user){
+
     }
+constructor() {
+    super();
+}
 
 }
 
