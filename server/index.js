@@ -19,12 +19,14 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static('public'));
 app.all("/api/:controller/:method", (req, res) => {
+    console.log(req.method);
     if (req.params.controller) {
+        const params =  req.method === "POST" ? req.body : req.query;
         modules[req.params.controller][req.params.method].call(
             null,
             req,
             res,
-            req.body
+            params,
         );
     }
 });

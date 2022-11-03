@@ -30,7 +30,8 @@ class AppUsersModule extends BaseElement {
                     <app-user-list id="list"
                                    .usersList="${this.usersList}"></app-user-list>
                 </section>
-            </div>
+            </div
+            >
         `;
     }
 
@@ -38,47 +39,56 @@ class AppUsersModule extends BaseElement {
         return {
             usersList: {type: Array},
             editUser: {type: Object},
+
         }
     }
 
     connectedCallback() {
         super.connectedCallback();
-        this.addEventListener('save-user-data', (event) => {
-            this._saveUserData(event.detail);
+        this.addEventListener('save-user-data', async (event) => {
+            console.log(event);
+            await this._saveUsersData(event.detail);
         });
         this.addEventListener('edit-user-data', async (event) => {
-            this._editUserData(event.detail);
+            await this._editUserData(event.detail);
+        });
+        this.addEventListener('delete-user-data', async (event) => {
+            await this._deleteUserData(event.detail);
         });
 
+        this._getUserList();
     }
 
-    _saveUserData(user) {
-        RestClient.call('/api/client/updateClientData', user, RestClient.methods.post)
-            .then(() => {
-                this.usersList.push(user);
-                this.usersList = [...this.usersList];
-                console.log(this.usersList);
-                this.editUser = {
-                    firstName: '',
-                    lastName: '',
-                    email: '',
-                    paroliOne: '',
-                    parolitwo: '',
+    _saveUsersData(user){
+        console.log(user);
+        RestClient.call('/api/client/updateClientData',user,RestClient.methods.post)
+            .then((res)=> {
+                this._getUserList();
+            })
+            .catch((error)=> {console.log(error)});
+    }
 
-                };
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+    _getUserList() {
+        RestClient.call("/api/client/getClientInfo")
+            .then((result) => this.usersList = result)
+            .catch((error) => console.log(error));
     }
 
     _editUserData(user) {
-        this.editUser = user;
-        console.log(user);
+
+        this.shadowRoot.getElementById('form')._editUserChange(user);
     }
 
+    _deleteUserData(user) {
+        const _id = user._id;
+        console.log(_id);
+        RestClient.call('/api/client/deleteUser', {_id},RestClient.methods.get)
+            .then(() => this._getUserList())
+            .catch((error) => console.log(error));
+    }
     constructor() {
         super();
+        this.usersList=[];
     }
 }
 

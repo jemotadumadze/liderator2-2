@@ -4,7 +4,6 @@ class AppUserList extends BaseElement {
     static get is() {
         return "app-user-list";
     }
-
     static get styles() {
         return css`
           :host {
@@ -28,30 +27,36 @@ class AppUserList extends BaseElement {
           .users-info_header h3 {
             margin: 5px 15px;
           }
+
           .grid_header-row,
           .grid_user-row {
             display: grid;
             grid-template-columns: 30px repeat(3, 1fr) 180px repeat(2, 1fr);
             grid-gap: 4px;
           }
+
           .grid_header-row span {
             font-weight: bold;
           }
+
           .grid_user-row span {
             word-wrap: break-word;
           }
+
           .action-btns {
             display: inline-flex;
             justify-content: space-evenly;
             align-items: center;
           }
+
           @media (max-width: 1024px) {
             .grid_header-row,
             .grid_user-row {
               grid-template-rows: 1fr 1fr;
               grid-template-columns: repeat(5, 1fr) 150px;
             }
-            .user-info-container{
+
+            .user-info-container {
               max-width: 768px;
             }
           }
@@ -78,7 +83,7 @@ class AppUserList extends BaseElement {
                         <span>Email</span>
                         <span>passOne</span>
                         <span>passTwo</span>
-                       
+
                     </div>
                     <div class="grid_info-rows" id="usersInfoTable">
                         ${this.usersList
@@ -97,7 +102,7 @@ class AppUserList extends BaseElement {
                                             </button>
                                             <button
                                                     class="delete-btn btn"
-                                                    @click="${() => this._deleteUser(user)}"
+                                                    @click="${() => this._deleteUserData(user)}"
                                             > ❌
                                             </button>
                                         </div>
@@ -107,30 +112,27 @@ class AppUserList extends BaseElement {
                 </div>
         `;
     }
-
     static get properties() {
         return {
-            usersList: {type: Array}
+            usersList: {type: Array},
+            id: {
+                type: String,
+            },
         }
     }
-
-    connectedCallback() {
-        super.connectedCallback();
-    }
-
     editUser(user) {
-        this.sendCustomEvent('edit-user-data', user)
+        this.sendCustomEvent('edit-user-data', user);
         console.log(user)
     }
 
-
-
-    _deleteUser(user){
-
+    _deleteUserData(user){
+        this.sendCustomEvent('delete-user-data', user);
     }
-constructor() {
-    super();
-}
+
+    constructor() {
+        super();
+        this.usersList = [];
+    }
 
 }
 

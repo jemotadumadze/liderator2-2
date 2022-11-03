@@ -1,11 +1,9 @@
 import {LitElement, html, css} from "lit-element";
-
 class BaseElement extends LitElement {
 
     constructor() {
         super();
         const properties = this.constructor.properties;
-        console.log(properties);
         for (let key in properties) {
             this._setPropertyValue(key, properties);
         }
@@ -20,7 +18,6 @@ class BaseElement extends LitElement {
         });
         super.update(props);
     }
-
 
     _setPropertyValue(key, properties) {
         let value;

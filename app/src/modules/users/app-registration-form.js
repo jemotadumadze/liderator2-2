@@ -1,5 +1,5 @@
 import {BaseElement, html, css} from "../../core/base-element.js";
-import {RestClient} from "../../core/rest-client.js";
+
 
 class AppRegistrationForm extends BaseElement {
     static get is() {
@@ -18,14 +18,28 @@ class AppRegistrationForm extends BaseElement {
                 reflect: true,
                 attribute: 'first-name',
             },
-            email: {type: String},
-            paroliOne: {type: String},
-            paroliTwo: {type: String},
+            email: {
+                type: String,
+                reflect: true,
+                attribute: 'email',
+            },
+            paroliOne: {
+                type: String,
+                reflect: true,
+                attribute: 'paroliOne',
+            },
+            paroliTwo: {
+                type: String,
+                reflect: true,
+                attribute: 'paroliTwo',
+            },
+
             submitBtn: {type: String},
             editUser: {
                 type: Object,
                 observer: '_editUserChange'
-            }
+            },
+            _id: {type: String,},
         }
     }
 
@@ -175,13 +189,16 @@ class AppRegistrationForm extends BaseElement {
     }
 
     _saveUsersData() {
-        this.sendCustomEvent('save-user-data', {
+        const user = {
             firstName: this.firstName,
             lastName: this.lastName,
             email: this.email,
             paroliOne: this.paroliOne,
             paroliTwo: this.paroliTwo,
-        });
+            _id: this._id,
+        };
+        console.log(user);
+        this.sendCustomEvent('save-user-data',  user);
     }
 
     static get validation() {
@@ -206,7 +223,6 @@ class AppRegistrationForm extends BaseElement {
                 targetElement.setAttribute('invalid', '');
             }
         }
-
     }
 
     get disabled() {
@@ -231,11 +247,6 @@ class AppRegistrationForm extends BaseElement {
         }
     }
 
-    connectedCallback() {
-        super.connectedCallback();
-    }
-
-
     constructor() {
         super();
         this.firstName = '';
@@ -244,9 +255,8 @@ class AppRegistrationForm extends BaseElement {
         this.paroliOne = '';
         this.paroliTwo = '';
         this.editUser = {};
-
+        this._id = '';
     }
-
 
 }
 
