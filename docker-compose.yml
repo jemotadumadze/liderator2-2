@@ -28,5 +28,6 @@ services:
       - NODE_ENV=localhost
     ports:
       - "127.0.0.1:8080:8083"
+      - "127.0.0.1:8088:8088"
 volumes:
   tmp-public:

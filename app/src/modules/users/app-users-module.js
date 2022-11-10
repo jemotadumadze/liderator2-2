@@ -46,7 +46,6 @@ class AppUsersModule extends BaseElement {
     connectedCallback() {
         super.connectedCallback();
         this.addEventListener('save-user-data', async (event) => {
-            console.log(event);
             await this._saveUsersData(event.detail);
         });
         this.addEventListener('edit-user-data', async (event) => {
@@ -57,15 +56,18 @@ class AppUsersModule extends BaseElement {
         });
 
         this._getUserList();
+
     }
 
-    _saveUsersData(user){
-        console.log(user);
-        RestClient.call('/api/client/updateClientData',user,RestClient.methods.post)
-            .then((res)=> {
+    _saveUsersData(user) {
+        RestClient.call('/api/client/updateClientData', user, RestClient.methods.post)
+            .then((res) => {
                 this._getUserList();
             })
-            .catch((error)=> {console.log(error)});
+            .catch((error) => {
+                console.log(error)
+            });
+        this.emptyInputValues();
     }
 
     _getUserList() {
@@ -75,20 +77,28 @@ class AppUsersModule extends BaseElement {
     }
 
     _editUserData(user) {
-
         this.shadowRoot.getElementById('form')._editUserChange(user);
     }
 
     _deleteUserData(user) {
         const _id = user._id;
-        console.log(_id);
-        RestClient.call('/api/client/deleteUser', {_id},RestClient.methods.get)
+        RestClient.call('/api/client/deleteUser', {_id}, RestClient.methods.get)
             .then(() => this._getUserList())
             .catch((error) => console.log(error));
     }
+    emptyInputValues() {
+        this.firstName = "";
+        this.lastName = "";
+        this.email = "";
+        this.paroliOne = "";
+        this.paroliTwo = "";
+        console.log("empty")
+    }
+
     constructor() {
         super();
-        this.usersList=[];
+        this.usersList = [];
+
     }
 }
 

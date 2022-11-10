@@ -66,6 +66,40 @@ class Client {
             res.status(500).send({error: true, message: error.message})
         }
     }
+    //chat
+
+    static async getMessages(req, res) {
+        try {
+            const users = await DB().collection('messages').find().toArray()
+            res.status(200).send(JSON.stringify(users))
+        } catch (exception) {
+            console.error(exception.message)
+            res.status(500).send()
+        }
+    }
+
+    static async saveMessage(req, res, params) {
+        try {
+            await DB().collection('messages').insertOne({
+                senderId: params.senderId,
+                senderFirstName: params.senderFirstName,
+                // senderLastName: params.senderLastName,
+                receiverId: params.receiverId,
+                receiverFirstName: params.receiverFirstName,
+                // receiverLastName: params.receiverLastName,
+                message: params.message,
+            })
+            res.status(200).send({
+                success: true,
+                message: 'success to post data',
+                ...params,
+            })
+        } catch (error) {
+            res.status(500).send({ error: true })
+        }
+    }
+
+
 }
 
 export {Client};

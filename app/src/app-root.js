@@ -1,5 +1,6 @@
 import {BaseElement, html, css} from "./core/base-element.js";
 import "./modules/users/app-users-module.js"
+import "./modules/chat/app-chat-form.js"
 
 const tabs = {
     users: 'users',
@@ -13,11 +14,6 @@ class AppRoot extends BaseElement {
 
     static get styles() {
         return css`
-          //.container {
-          //  width: 1000px;
-          //  margin: auto;
-          //}
-
           .header {
             background-color: cadetblue;
             display: flex;
@@ -59,9 +55,9 @@ class AppRoot extends BaseElement {
                 </div>
                 <div>
                     ${this.tab === 'users' ? html`
-                        <app-users-module>` : ''}
+                        <app-users-module></app-users-module>` : ''}
                     ${this.tab === 'chat' ? html`
-                        <app-chat-module>` : ''}
+                        <app-chat-form></app-chat-form>` : ''}
                 </div>
             </div>
         `

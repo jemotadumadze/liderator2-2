@@ -48,18 +48,6 @@ class AppUserList extends BaseElement {
             justify-content: space-evenly;
             align-items: center;
           }
-
-          @media (max-width: 1024px) {
-            .grid_header-row,
-            .grid_user-row {
-              grid-template-rows: 1fr 1fr;
-              grid-template-columns: repeat(5, 1fr) 150px;
-            }
-
-            .user-info-container {
-              max-width: 768px;
-            }
-          }
         `;
     }
 
@@ -70,8 +58,10 @@ class AppUserList extends BaseElement {
                     <h3>Users information</h3>
                     <div class="search-bar">
                         <input
+                
                                 type="text"
                                 id="searchedValue"
+                                @input="${(event) => (this.searchTerm = event.target.value)}"
                         />
                     </div>
                 </div>
@@ -87,6 +77,7 @@ class AppUserList extends BaseElement {
                     </div>
                     <div class="grid_info-rows" id="usersInfoTable">
                         ${this.usersList
+                                .filter((item) => this.filter(item))
                                 .map((user, index) => html`
                                     <div class="grid_user-row">
                                         <span><b>${index + 1}</b></span>
@@ -114,19 +105,36 @@ class AppUserList extends BaseElement {
     }
     static get properties() {
         return {
-            usersList: {type: Array},
+            usersList: {
+                type: Array
+            },
             id: {
                 type: String,
+            },
+            searchTerm:{
+                type:String
             },
         }
     }
     editUser(user) {
         this.sendCustomEvent('edit-user-data', user);
-        console.log(user)
     }
 
     _deleteUserData(user){
         this.sendCustomEvent('delete-user-data', user);
+    }
+    filter(item) {
+        if (!this.searchTerm) {
+            return true;
+        }
+        const regex = new RegExp(this.searchTerm, "i");
+        const response =
+            regex.test(item.firstName) ||
+            regex.test(item.lastName) ||
+            regex.test(item.email) ||
+            regex.test(item.paroliOne) ||
+            regex.test(item.paroliTwo);
+        return response;
     }
 
     constructor() {

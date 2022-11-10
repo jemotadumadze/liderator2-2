@@ -180,7 +180,7 @@ class AppRegistrationForm extends BaseElement {
                         <button
                                 ?disabled="${this.disabled}"
                                 class="submit-btn"
-                                @click="${this._saveUsersData}">sumbit
+                                @click="${this._saveUsersData} ${this.emptyInputValues}">sumbit
                         </button>
                     </div>
                 </div>
@@ -247,6 +247,7 @@ class AppRegistrationForm extends BaseElement {
         }
     }
 
+
     constructor() {
         super();
         this.firstName = '';
@@ -256,6 +257,7 @@ class AppRegistrationForm extends BaseElement {
         this.paroliTwo = '';
         this.editUser = {};
         this._id = '';
+
     }
 
 }
