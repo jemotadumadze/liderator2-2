@@ -180,7 +180,7 @@ class AppRegistrationForm extends BaseElement {
                         <button
                                 ?disabled="${this.disabled}"
                                 class="submit-btn"
-                                @click="${this._saveUsersData} ${this.emptyInputValues}">sumbit
+                                @click="${this._saveUsersData}">sumbit
                         </button>
                     </div>
                 </div>
@@ -197,6 +197,7 @@ class AppRegistrationForm extends BaseElement {
             paroliTwo: this.paroliTwo,
             _id: this._id,
         };
+        this.emptyInputValues();
         console.log(user);
         this.sendCustomEvent('save-user-data',  user);
     }
@@ -246,7 +247,14 @@ class AppRegistrationForm extends BaseElement {
             this[key] = newValue[key];
         }
     }
-
+    emptyInputValues() {
+        this.firstName = "";
+        this.lastName = "";
+        this.email = "";
+        this.paroliOne = "";
+        this.paroliTwo = "";
+        console.log("empty")
+    }
 
     constructor() {
         super();

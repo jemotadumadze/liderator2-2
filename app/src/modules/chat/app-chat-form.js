@@ -28,18 +28,14 @@ class AppChatPage extends LitElement {
           .chat-list-block {
             height: 100%;
           }
-
           .chat-receive-block {
             height: 100%;
-
           }
-
           .chat-block {
             height: 100%;
             display: grid;
             grid-template-rows: 40px 62vh 60px;
           }
-
           .chat-header {
             display: flex;
             align-items: center;
@@ -47,22 +43,18 @@ class AppChatPage extends LitElement {
             padding: 3px 10px;
             background-color: #89ccf6;
           }
-
           .chat {
             padding: 5px 10px;
             background-color: #baebff;
             position: relative;
           }
-
           .chat-scroll {
             height: 90%;
             overflow: auto;
           }
-
           .typing {
             height: 10%;
           }
-
           .messaging-bar {
             display: flex;
             align-items: center;
@@ -70,7 +62,6 @@ class AppChatPage extends LitElement {
             padding: 10px;
             background-color: #89ccf6;
           }
-
           .chat-input {
             width: 70%;
             height: 35px;
@@ -78,7 +69,6 @@ class AppChatPage extends LitElement {
             border-radius: 8px;
             padding: 2px 10px;
           }
-
           .send-btn {
             padding: 5px 25px;
             text-align: center;
@@ -87,7 +77,6 @@ class AppChatPage extends LitElement {
             background-color: #c55df6;
             border: none;
           }
-
           .message-block {
             display: flex;
             margin: 15px;
@@ -97,7 +86,6 @@ class AppChatPage extends LitElement {
             list-style: none;
             padding-inline-start: 10px;
           }
-
           .message-title {
             display: inline-block;
             text-transform: capitalize;
@@ -107,41 +95,33 @@ class AppChatPage extends LitElement {
             font-size: 14px;
             border-radius: 11px;
           }
-
           .message-div {
             display: block;
             padding: 5px 25px;
             border-radius: 8px;
             position: relative;
           }
-
-          .reciver-msg {
+          .receiver-msg {
             justify-content: flex-start;
           }
-
           .sender-msg {
             justify-content: flex-end;
           }
-
-          .reciver-msg .message-title {
+          .receiver-msg .message-title {
             background-color: #09ecb0;
             left: -20px;
           }
-
           .sender-msg .message-title {
             background-color: #c18cf9;
             right: -20px;
           }
-
-          .reciver-msg .message-div {
+          .receiver-msg .message-div {
             background-color: #43f5c6;
           }
-
           .sender-msg .message-div {
             background-color: #c09cfa;
             margin-right: 25px;
           }
-
           @media (max-width: 1024px) {
             .chat-section {
               grid-template-columns: 190px 1fr 190px;
@@ -269,7 +249,7 @@ class AppChatPage extends LitElement {
         );
         this.messageList = tmpArray.map((item) => {
             return html`
-                <li class="message-block ${item.senderId === this.senderId ? "sender-msg" : "reciver-msg"}">
+                <li class="message-block ${item.senderId === this.senderId ? "sender-msg" : "receiver-msg"}">
                     <div class="message-div">
                         <div class="message-title">${item.senderId === this.senderId ?
                                 this.senderFirstName : this.receiverFirstName}</div>

@@ -83,10 +83,8 @@ class Client {
             await DB().collection('messages').insertOne({
                 senderId: params.senderId,
                 senderFirstName: params.senderFirstName,
-                // senderLastName: params.senderLastName,
                 receiverId: params.receiverId,
                 receiverFirstName: params.receiverFirstName,
-                // receiverLastName: params.receiverLastName,
                 message: params.message,
             })
             res.status(200).send({

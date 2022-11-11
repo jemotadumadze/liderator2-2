@@ -67,7 +67,6 @@ class AppUsersModule extends BaseElement {
             .catch((error) => {
                 console.log(error)
             });
-        this.emptyInputValues();
     }
 
     _getUserList() {
@@ -86,14 +85,7 @@ class AppUsersModule extends BaseElement {
             .then(() => this._getUserList())
             .catch((error) => console.log(error));
     }
-    emptyInputValues() {
-        this.firstName = "";
-        this.lastName = "";
-        this.email = "";
-        this.paroliOne = "";
-        this.paroliTwo = "";
-        console.log("empty")
-    }
+
 
     constructor() {
         super();
