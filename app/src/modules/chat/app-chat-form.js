@@ -227,11 +227,6 @@ class AppChatPage extends LitElement {
         };
     }
 
-
-    connectedCallback() {
-        super.connectedCallback();
-    }
-
     getMsg() {
         this.messageArr = [];
         RestClient.call("/api/client/getMessages")
@@ -271,7 +266,6 @@ class AppChatPage extends LitElement {
         this.saveMsg(messageInfo);
         ws.send(JSON.stringify(messageInfo));
         this.message = "";
-        this.getMsg();
     }
 
     saveMsg(data) {
@@ -312,6 +306,20 @@ class AppChatPage extends LitElement {
         this.messageArr = [];
         this.messageList = "";
         this.errorMessage = "";
+    }
+    
+    connectedCallback() {
+        super.connectedCallback();
+
+        ws.addEventListener("message", (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                this.messageArr.push(data);
+                this.showMessages();
+            } catch (exception) {
+                console.error(exception.message);
+            }
+        });
     }
 }
 
